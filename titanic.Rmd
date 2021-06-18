@@ -1,0 +1,287 @@
+---
+title: "Titanic - Machine Learning from Disaster: Logistic Regression"
+author: "Lily Zou"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library('mice')
+library(ROCR)
+library('ggplot2')
+library(gridExtra)
+```
+
+
+## 1 Summary
+
+The purpose of this project was to investigate which factors impact an individual's likelihood of surviving the sinking of the Titanic and construct a model to accurately predict a Titanic passenger's survival outcome. Since the outcome is binary (0: perished, 1: survived) we use logistic regression to construct a model. 
+
+The datasets used are available at https://www.kaggle.com/c/titanic/data. 
+
+## 2 Data  
+
+### 2.1 Read Data
+
+```{r 2.1}
+train = read.csv("train.csv", header = T, na.strings = c(""))
+test = read.csv("test.csv", header = T, na.strings = c(""))
+
+train$Pclass = factor(train$Pclass)
+test$Pclass = factor(test$Pclass)
+
+summary(train)
+```
+
+The train dataset contains the following variables: 
+
+- PassengerId: A passenger's unique ID number
+- Survived: A binary variable denoting whether a passenger survived (1) or perrished (0)
+- Pclass: Passenger's class (1st, 2nd, 3rd), listed as a proxy for socio-economic status 
+- Name: Passenger's name
+- Sex: Passenger's sex
+- Age: Passenger's age
+- SibSp: Number of siblings and/or spouses a passenger had abord the Titanic
+- Parch: Number of parents and/or children a passenger aboard the Titanic
+- Ticket: Passenger's ticket number
+- Fare: Fare passenger paid for the ticket
+- Cabin: Passenger's cabin number
+- Embareked: Where the passenger boarded the ship (C = Cerbourg, Q = Queenstown, S = Southamptom)
+
+### 2.2 Missing Values
+
+Note that there are several variables with missing values: 
+
+```{r 2.2a}
+sapply(train, function(x) sum(is.na(x)))
+
+sapply(test, function(x) sum(is.na(x)))
+```
+
+Just over 77\% of the data points for 'Cabin' are missing in the train dataset. Therefore we assumed 'Cabin' is insignificant to predict survival and exclude this variable from the model. 
+
+```{r 2.2b}
+train = subset(train, select= c(1:10, 12))
+test = subset(test, select= c(1:9, 11))
+```
+
+Only 2 data points for 'Embarked' are missing (0.22\% of the total observations) in the train dataset. Therefore we discard these two incomplete observations under the assumption that not much information will be lost. 
+
+```{r 2.2c}
+train = train[!is.na(train$Embarked),]
+```
+
+To fill in the missing data points for 'Age' we use multiple imputation via sampling with replacement. 
+
+```{r 2.2d}
+set.seed(123)
+train$Age = complete(mice(data = subset(train, select = c(2, 6)), m = 1, maxit = 100, method = "sample", print = FALSE), action = 1)$Age
+
+test$Age = complete(mice(data = subset(test, select = c(4,5)), m = 1, maxit = 100, method = "sample", print = FALSE), action = 1)$Age
+```
+
+### 2.3 Data Exploration
+
+We remove 'Name' and 'Ticket' and 'PassengerId' from the dataset due to each name, passengerID and ticket number as said variables are unlikely to be related to survival probability. 
+
+```{r 2.3a}
+train = subset(train, select = c(2, 3, 5, 6, 7, 8, 10, 11))
+test = subset(test, select = c(1, 2, 4, 5, 6, 7, 9, 10))
+```
+
+We begin by exploring the relationship between the remaining variables and survival outcome. 
+
+Sex and Survival
+
+```{r 2.3b}
+train$Survived = factor(train$Survived)
+plot1 = ggplot(train, aes(x=Sex, fill=Survived)) + geom_bar() 
+plot2 = ggplot(train, aes(x=Sex, fill=Survived)) + geom_bar(position = "fill") 
+grid.arrange(plot1, plot2, ncol=2)
+```
+
+From the figures we can see that overwelmingly, females survive more than males referencing the "Women and children first" principal. 
+
+PClass and Survival
+
+```{r 2.3c}
+plot1 = ggplot(train, aes(x=Pclass, fill=Survived)) + geom_bar() 
+plot2 = ggplot(train, aes(x=Pclass, fill=Survived)) + geom_bar(position = "fill") 
+grid.arrange(plot1, plot2, ncol=2)
+```
+
+From the figures we can see that passengers in 3rd class tended to perish much more often than to passengers in 1st and 2nd class. 
+
+Age and Survival
+
+```{r 2.3d}
+train$Agegroup[train$Age <= 5] <- "0-5"
+train$Agegroup[train$Age > 5 & train$Age <= 10] <- "6-10"
+train$Agegroup[train$Age > 10 & train$Age <= 20] <- "11-20"
+train$Agegroup[train$Age > 20 & train$Age <= 30] <- "21-30"
+train$Agegroup[train$Age > 30] <- "30+"
+plot1 = ggplot(train, aes(x=Agegroup, fill=Survived)) + geom_bar() 
+plot2 = ggplot(train, aes(x=Agegroup, fill=Survived)) + geom_bar(position = "fill") 
+grid.arrange(plot1, plot2, ncol=2)
+```
+
+From the figures we can see the proportion of survivors was larger for children under 5, again referencing the "Women and children first" principal.
+
+SibSp and Survival
+
+```{r 2.3e}
+plot1 = ggplot(train, aes(x=SibSp, fill=Survived)) + geom_bar() 
+plot2 = ggplot(train, aes(x=SibSp, fill=Survived)) + geom_bar(position = "fill") 
+grid.arrange(plot1, plot2, ncol=2)
+```
+
+From the figures we can see there is a higher proportion of survivors among passengers with 1-2 siblings/spouses. 
+
+Parch and Survival
+
+```{r 2.3f}
+plot1 = ggplot(train, aes(x=Parch, fill=Survived)) + geom_bar() 
+plot2 = ggplot(train, aes(x=Parch, fill=Survived)) + geom_bar(position = "fill") 
+grid.arrange(plot1, plot2, ncol=2)
+```
+
+These figures show there is a higher proportion of survivors among passengers with 1-3 children/parents.
+
+Fare and Survival
+
+```{r 2.3g}
+train$Faregroup[train$Fare == 0] <- "0"
+train$Faregroup[train$Fare > 0 & train$Fare <= 10] <- "1-10"
+train$Faregroup[train$Fare > 10 & train$Fare <= 24] <- "10-24"
+train$Faregroup[train$Fare > 24 & train$Fare <= 50] <- "25-50"
+train$Faregroup[train$Fare > 50] <- "50+"
+plot1 = ggplot(train, aes(x=Faregroup, fill=Survived)) + geom_bar() 
+plot2 = ggplot(train, aes(x=Faregroup, fill=Survived)) + geom_bar(position = "fill") 
+grid.arrange(plot1, plot2, ncol=2)
+```
+
+These figures show that there was a significantly higher proportion of passengers who survived among those who paid 50 or more for their ticket.
+
+Embarked and Survival
+
+```{r 2.3h}
+plot1 = ggplot(train, aes(x=Embarked, fill=Survived)) + geom_bar() 
+plot2 = ggplot(train, aes(x=Embarked, fill=Survived)) + geom_bar(position = "fill") 
+grid.arrange(plot1, plot2, ncol=2)
+```
+
+These figures show there are no interesting trends between whether a passenger survives and the port they embarked from.
+
+## 3 Model
+
+### 3.1 Build Model
+
+```{r 3.1a}
+base = glm(formula = Survived ~ ., data = train, family="binomial"(link=logit))
+summary(base)
+```
+
+From the logistic regression model, we can see that 'Pclass', 'Sex', 'Age' and 'SibSp' are significant predictors of survival probability (at a 0.05 significance level) while 'Parch', 'Fare' and 'Embarked' are not. 
+
+```{r 3.1b}
+anova(base, test='Chisq')
+```
+
+Additionally, from the Analysis of Deviance Table it can be seen that adding 'Pclass', 'Sex', 'Age' and 'SibSp' result in statistically significant changes in residual deviance (at a 0.05 significance level) indicating that there is strong evidence against the null hypothesis that 'Pclass', 'Sex', 'Age' and 'SibSp' are unrelated to survival. Conversely, adding 'Parch', 'Fare' and 'Embarked' result in statistically insignificant changes in residual deviance.  
+
+Therefore, we build our final model as: 
+
+```{r 3.1c}
+final = glm(formula = Survived ~ Pclass + Sex + Age + SibSp, data = train, family="binomial"(link=logit))
+summary(final)
+```
+
+### 3.3 Interpretation
+
+The interpretation of the coefficients of the model is as follows: 
+
+When controlling for sex, age, and the number of siblings/spouses, the odds of surviving while in 2nd class is $\exp(-1.185113) = 0.31$ times the odds of surviving while in 1st class. This indicates that being in 2nd class greatly reduces the probability of surviving compared to being in 1st class. 
+
+When controlling for sex, age, and the number of siblings/spouses, the odds of surviving while in 3rd class is $\exp(-2.327793) = 0.1$ times the odds of surviving while in 1st class. This indicates that being in 3rd class greatly reduces the probability of surviving compared to being in 1st class. 
+
+When controlling for age, passenger class, and the number of siblings/spouses, the odds of surviving when male is $\exp(-2.748996) = 0.06$ times the odds of surviving while female. This indicates that being male significantly reduces the probability of surviving compared to being female. 
+
+When controlling for passenger class, sex, and the number of siblings/spouses, the odds of surviving is $\exp(-0.037643) = 0.96$ times higher for each one year increase of age. This indicates that each one year increase in age slightly reduces the probability of surviving. 
+
+When controlling for passenger class, sex, and age, the odds of surviving is $\exp(-0.352374) = 0.7$ times higher for each one person increase in the number of siblings/spouses. This indicates that each one person increase in the number of siblings/spouses aboard the Titanic decreases the probability of surviving.
+
+A 95\% Wald confidence interval for each coefficient is as follows:
+
+```{r 3.3a}
+est = c(-1.086133, -2.201785, -2.741955, -0.029209, -0.318597)
+se = c(0.257805, 0.234923, 0.193677, 0.006499, 0.101024)
+
+out = c()
+for (i in 1:length(est)){
+  ci = exp(est[i]+c(-1,1)*qnorm(0.975)*se[i])
+  out = rbind(out, ci)
+}
+
+rownames(out) = c('Pclass2', 'Pclass3','Sexmale', 'Age', 'SibSp')
+colnames(out) = c('Upper', 'Lower')
+
+out
+```
+
+### 3.4 Evaluation
+
+We first apply the model to the training dataset and obtain a vector (pred) containing the predicted probability of survival for all the passengers in the test dataset. Since the goal is to predict whether a passenger will survive (a binary outcome) we convert the probability values into categorical values (0 or 1) by assuming passengers with a probability of survival below 0.5 perish, and passengers with a probability of survival greater than 0.5 survive. Afterwards we compare our model predictions to the actual survival status of the passengers in the test dataset.  
+
+```{r 3.4a}
+pred = predict(final, subset(train, select = c(2, 3, 4, 5)), type = 'response')
+for (i in 1:length(pred)){
+  if (pred[i] > 0.5){
+    pred[i] = 1
+  }
+  else{
+    pred[i] = 0
+  }
+}
+1 - mean(pred != train$Survived)
+```
+
+We find that the accuracy of predicting the survival outcome for passengers in the train datset is 0.78965 or 79\%. 
+
+To further evaluate the model, we plot a REceiver-Operator CHaracteristic (ROC) Curve.
+
+```{r 3.4b}
+pred = predict(final, subset(train, select = c(2, 3, 4, 5)), type = 'response')
+perf = prediction(pred, train$Survived)
+roc = performance(perf, 'tpr', 'fpr')
+plot(roc,colorize=TRUE)
+abline(0,1, lwd = 2, lty = 2)
+```
+
+```{r 3.4c}
+auc = performance(perf, measure = 'auc')
+auc@y.values[[1]]
+```
+
+The area under the curve is 0.85608, indicating that the probability a passenger who survived on the Titanic will have a higher probability of survival (from the model) than a passenger who perished on the Titanic is 86\%. 
+
+We then apply the model to the test dataset and repeat the process outlined above with the training dataset. Consequently, we receive a prediction on the survival status of the passengers in the test dataset. 
+
+```{r 3.4d}
+pred = predict(final, newdata = subset(test, select = c(2, 3, 4, 5)), type = 'response')
+for (i in 1:length(pred)){
+  if (pred[i] > 0.5){
+    pred[i] = 1
+  }
+  else{
+    pred[i] = 0
+  }
+}
+df = data.frame(PassengerId = test$PassengerId, Survived = pred)
+write.csv(df,"prediction.csv", row.names = FALSE)
+```
+
+Submitting the predictions to Kaggle for evaluation results in an accuracy score of 0.76076, indicating that the model is able to accurately predict whether a passenger will survive or perish for 76\% of the passengers in test dataset. 
+
+
+
+
