@@ -20,4 +20,4 @@ Dataset used: [vgsales](https://www.kaggle.com/gregorut/videogamesales)
 
 The dataset contains information on various video games released between 1980 and 2020 including the publishing company, genre, global sales, platform, Europe sales, Japan sales, and North American sales. Using the dataset I constructed a dashboard showing the top 10 video game publishers, top video game titles, and various metrics regarding global and regional sales. 
 
-## Reddit Vaccine Myths
+### Reddit Vaccine Myths
