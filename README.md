@@ -10,7 +10,7 @@ Titanic - Machine Learning from Disaster is a prediction competition host on [Ka
 
 ## [Tableau Portfolio](https://public.tableau.com/profile/lily3153#!/)
 
-Below are several Tableau Dashboards created using public datasets. Each tableau workbook is located in the ["workbook directory"](https://github.com/L-Zou/L-Zou.github.io/tree/main/workbook) in this repo. A preview of each dashboard is available below. Click each title to fully explore the interactive dashboards on tableau public. SQL queries were used to wrangle the datasets into a suitible form for analysis and visualization. 
+Below are several Tableau Dashboards created using public datasets. Each tableau workbook is located in the ["workbook directory"](https://github.com/L-Zou/L-Zou.github.io/tree/main/workbook) of the L-Zou.github.io repo. A preview of each dashboard is available below. Click each title to fully explore the interactive dashboards on tableau public. SQL queries were used to wrangle the datasets into a suitible form for analysis and visualization. 
 
 ### [Video Game Sales](https://public.tableau.com/views/Book1_16240831851680/Dashboard2?:language=en-US&:display_count=n&:origin=viz_share_link)
 
