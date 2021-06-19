@@ -1,6 +1,6 @@
 ## Data Science portfolio
 
-This portfolio contains a compilation of data analysis projects created using R as well as several dashboards created in tableau.
+This portfolio contains a compilation of data analysis projects created using R as well as several dashboards created using tableau and SQL queries.
 
 ## Projects
 
