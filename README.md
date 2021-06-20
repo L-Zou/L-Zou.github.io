@@ -14,7 +14,7 @@ Below are several Tableau Dashboards created using public datasets. Each tableau
 
 ### [Video Game Sales](https://public.tableau.com/views/Book1_16240831851680/Dashboard2?:language=en-US&:display_count=n&:origin=viz_share_link)
 
-![image](https://user-images.githubusercontent.com/46811504/122633589-66569c00-d0a7-11eb-9795-8d4a1362e1cc.png)
+![image](https://user-images.githubusercontent.com/46811504/122661305-e12ac000-d156-11eb-9f80-df1299b98bb5.png)
 
 Dataset used: [vgsales](https://www.kaggle.com/gregorut/videogamesales)
 
