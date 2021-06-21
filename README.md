@@ -28,7 +28,7 @@ The dataset contains information on various video games released between 1980 an
 
 ### [Netflix IMDB Scores](https://public.tableau.com/views/NetflixDashboard_16242619280800/Dashboard1?:language=en-US&:display_count=n&:origin=viz_share_link)
 
-![image](https://user-images.githubusercontent.com/46811504/122803193-4801c380-d294-11eb-9069-9238c71ed118.png)
+![image](https://user-images.githubusercontent.com/46811504/122830690-b35c8d00-d2b6-11eb-96c7-efcbf52ae04a.png)
 
 Dataset used: [NetflixOriginals](https://www.kaggle.com/luiscorter/netflix-original-films-imdb-scores)
 
