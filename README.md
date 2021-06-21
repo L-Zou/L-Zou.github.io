@@ -26,7 +26,7 @@ The dataset contains information on various video games released between 1980 an
 
 [SQL](https://github.com/L-Zou/L-Zou.github.io/blob/main/workbook/VideoGameSales/videogames.sql)
 
-### [Netflix IMDB Scores](https://public.tableau.com/views/NetflixDashboard_16242619280800/Dashboard1?:language=en-US&:display_count=n&:origin=viz_share_link)
+### [Netflix IMDB Scores](https://public.tableau.com/shared/NF5YYZ9SS?:display_count=n&:origin=viz_share_link)
 
 ![image](https://user-images.githubusercontent.com/46811504/122830690-b35c8d00-d2b6-11eb-96c7-efcbf52ae04a.png)
 
