@@ -26,8 +26,8 @@ The dataset contains information on various video games released between 1980 an
 
 ### [Netflix IMDB Scores](https://public.tableau.com/views/NetflixDashboard_16242619280800/Dashboard1?:language=en-US&:display_count=n&:origin=viz_share_link)
 
-![image](https://user-images.githubusercontent.com/46811504/122726626-309aea00-d244-11eb-9ad3-4bb2eebce604.png)
+![image](https://user-images.githubusercontent.com/46811504/122803193-4801c380-d294-11eb-9069-9238c71ed118.png)
 
 Dataset used: [NetflixOriginals](https://www.kaggle.com/luiscorter/netflix-original-films-imdb-scores)
 
-Since June 1st 2021, Netflix has released over 500 Netflix Originals on its platform. Consequently, choosing a Netflix Original to watch can be quite overwhelming. This dashboard aims to make the task of choosing a film to watch by organizing Netflix’s large catalogue of Originals by genre, language, runtime, and ranking said films using IMDb scores are a measure of quality. The dataset used contains information a Netflix's original genre, language, runtime, data of release, title, and IMDb score. Certain Netflix's originals had multiple genres (ex. teen romance). Using SQL queries such films were generalized into one genre (ex. romance). Similarily, originals with multiple languages were grouped under the category "multilingual". 
+Since June 1st 2021, Netflix has released over 500 Netflix Originals on its platform. Consequently, choosing a Netflix Original to watch can be quite overwhelming. This dashboard aims to make the task of choosing a film to watch by organizing Netflix’s large catalogue of Originals by genre, language, runtime, and ranking said films using IMDb scores are a measure of quality. The dataset used contains information a Netflix's original genre, language, runtime, data of release, title, and IMDb score. Certain Netflix's originals had multiple genres (ex. teen romance). Using SQL queries such films were generalized into one genre (ex. romance). Additionally, originals with multiple languages were grouped under the category "multilingual" using SQL queries.
