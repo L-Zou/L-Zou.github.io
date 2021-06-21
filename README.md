@@ -24,6 +24,8 @@ Dataset used: [vgsales](https://www.kaggle.com/gregorut/videogamesales)
 
 The dataset contains information on various video games released between 1980 and 2020 including the publishing company, genre, global sales, platform, Europe sales, Japan sales, and North American sales. Using the dataset I constructed a dashboard showing the top 10 video game publishers, top video game titles, and various metrics regarding global and regional sales. 
 
+[SQL](https://github.com/L-Zou/L-Zou.github.io/blob/main/workbook/VideoGameSales/videogames.sql)
+
 ### [Netflix IMDB Scores](https://public.tableau.com/views/NetflixDashboard_16242619280800/Dashboard1?:language=en-US&:display_count=n&:origin=viz_share_link)
 
 ![image](https://user-images.githubusercontent.com/46811504/122803193-4801c380-d294-11eb-9069-9238c71ed118.png)
@@ -31,3 +33,5 @@ The dataset contains information on various video games released between 1980 an
 Dataset used: [NetflixOriginals](https://www.kaggle.com/luiscorter/netflix-original-films-imdb-scores)
 
 Since June 1st 2021, Netflix has released over 500 Netflix Originals on its platform. Consequently, choosing a Netflix Original to watch can be quite overwhelming. This dashboard aims to make the task of choosing a film to watch by organizing Netflix’s large catalogue of Originals by genre, language, runtime, and ranking said films using IMDb scores are a measure of quality. The dataset used contains information a Netflix's original genre, language, runtime, data of release, title, and IMDb score. Certain Netflix's originals had multiple genres (ex. teen romance). Using SQL queries such films were generalized into one genre (ex. romance). Additionally, originals with multiple languages were grouped under the category "multilingual" using SQL queries.
+
+[SQL](SQL: https://github.com/L-Zou/L-Zou.github.io/blob/main/workbook/netflix/netflix.sql)
