@@ -20,7 +20,7 @@ Dataset used: [vgsales](https://www.kaggle.com/gregorut/videogamesales)
 
 The dataset contains information on various video games released between 1980 and 2020 including the publishing company, genre, global sales, platform, Europe sales, Japan sales, and North American sales. Using the dataset I constructed a dashboard showing the top 10 video game publishers, top video game titles, and various metrics regarding global and regional sales. 
 
-### Netflix IMDB Scores(https://public.tableau.com/views/NetflixDashboard_16242619280800/Dashboard1?:language=en-US&:display_count=n&:origin=viz_share_link)
+### [Netflix IMDB Scores](https://public.tableau.com/views/NetflixDashboard_16242619280800/Dashboard1?:language=en-US&:display_count=n&:origin=viz_share_link)
 
 ![image](https://user-images.githubusercontent.com/46811504/122726626-309aea00-d244-11eb-9ad3-4bb2eebce604.png)
 
