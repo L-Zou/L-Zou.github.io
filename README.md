@@ -34,4 +34,4 @@ Dataset used: [NetflixOriginals](https://www.kaggle.com/luiscorter/netflix-origi
 
 Since June 1st 2021, Netflix has released over 500 Netflix Originals on its platform. Consequently, choosing a Netflix Original to watch can be quite overwhelming. This dashboard aims to make the task of choosing a film to watch by organizing Netflix’s large catalogue of Originals by genre, language, runtime, and ranking said films using IMDb scores are a measure of quality. The dataset used contains information a Netflix's original genre, language, runtime, data of release, title, and IMDb score. Certain Netflix's originals had multiple genres (ex. teen romance). Using SQL queries such films were generalized into one genre (ex. romance). Additionally, originals with multiple languages were grouped under the category "multilingual" using SQL queries.
 
-[SQL](SQL: https://github.com/L-Zou/L-Zou.github.io/blob/main/workbook/netflix/netflix.sql)
+[SQL](https://github.com/L-Zou/L-Zou.github.io/blob/main/workbook/netflix/netflix.sql)
