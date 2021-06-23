@@ -720,7 +720,7 @@ abline(0,1, lwd = 2, lty = 2)</code></pre>
 <pre class="r"><code>auc = performance(perf, measure = &#39;auc&#39;)
 auc@y.values[[1]]</code></pre>
 <pre><code>## [1] 0.8498018</code></pre>
-<p>The area under the curve is 0.85608, indicating that the probability a passenger who survived on the Titanic will have a higher probability of survival (from the model) than a passenger who perished on the Titanic is 86%.</p>
+<p>The area under the curve is 0.85608, indicating that the probability of the model ranking a passenger who survived on the Titanic above a passenger who perished on the Titanic is 86\%.</p>
 <p>We then apply the model to the test dataset and repeat the process outlined above with the training dataset. Consequently, we receive a prediction on the survival status of the passengers in the test dataset.</p>
 <pre class="r"><code>pred = predict(final, newdata = subset(test, select = c(2, 3, 4, 5)), type = &#39;response&#39;)
 for (i in 1:length(pred)){
