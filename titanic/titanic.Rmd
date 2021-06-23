@@ -262,7 +262,7 @@ auc = performance(perf, measure = 'auc')
 auc@y.values[[1]]
 ```
 
-The area under the curve is 0.85608, indicating that the probability a passenger who survived on the Titanic will have a higher probability of survival (from the model) than a passenger who perished on the Titanic is 86\%. 
+The area under the curve is 0.85608, indicating that the probability of the model ranking a passenger who survived on the Titanic above a passenger who perished on the Titanic is 86\%. 
 
 We then apply the model to the test dataset and repeat the process outlined above with the training dataset. Consequently, we receive a prediction on the survival status of the passengers in the test dataset. 
 
