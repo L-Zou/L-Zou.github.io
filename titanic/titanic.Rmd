@@ -247,7 +247,7 @@ for (i in 1:length(pred)){
 
 We find that the accuracy of predicting the survival outcome for passengers in the train datset is 0.78965 or 79\%. 
 
-To further evaluate the model, we plot a REceiver-Operator CHaracteristic (ROC) Curve.
+To further evaluate the model, we plot a Receiver-Operator Characteristic (ROC) Curve.
 
 ```{r 3.4b}
 pred = predict(final, subset(train, select = c(2, 3, 4, 5)), type = 'response')
