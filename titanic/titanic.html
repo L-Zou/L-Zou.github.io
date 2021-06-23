@@ -710,7 +710,7 @@ for (i in 1:length(pred)){
 1 - mean(pred != train$Survived)</code></pre>
 <pre><code>## [1] 0.7907762</code></pre>
 <p>We find that the accuracy of predicting the survival outcome for passengers in the train datset is 0.78965 or 79%.</p>
-<p>To further evaluate the model, we plot a REceiver-Operator CHaracteristic (ROC) Curve.</p>
+<p>To further evaluate the model, we plot a Receiver Operating Characteristic (ROC) Curve.</p>
 <pre class="r"><code>pred = predict(final, subset(train, select = c(2, 3, 4, 5)), type = &#39;response&#39;)
 perf = prediction(pred, train$Survived)
 roc = performance(perf, &#39;tpr&#39;, &#39;fpr&#39;)
